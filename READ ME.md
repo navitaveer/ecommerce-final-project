@@ -100,4 +100,31 @@ yarn install
 3. run the command to live the server
    npm dev run
 
+
+   //credientials of user
+   shivamkorgaonkar08@gmail.com
+noise
+SHIVAM@08
+
+
+shivamkorgaonkar2002@gmail.com
+BOAT
+shivam@008
+
+
+
+shivamkorgaonkar2021@gmail.com
+jbl
+shivam@08
+
+
+pandurang1korgaonkar@gmail.com
+ptron
+shivam@0008
+
+admin password
+email:-shivam@gmail.com
+password :-123
+
+
 That's it! You've successfully set up and installed your Django project. Happy coding!
