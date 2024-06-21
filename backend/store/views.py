@@ -651,7 +651,46 @@ class ReviewListView(generics.ListAPIView):
         product = Product.objects.get(id=product_id)
         reviews = Review.objects.filter(product=product)
         return reviews
+
+class SummaryReview(generics.ListAPIView):
+    """
+    API view to retrieve a list of reviews for a specific product.
+    """
+    serializer_class = ReviewSerializer
+    permission_classes = (AllowAny, )
+
+    def get_queryset(self):
+        """
+        Override get_queryset method to return reviews for the given product_id.
+        """
+        product_id = self.kwargs['product_id']
+        
+        # Using get_object_or_404 to handle the case where the product does not exist
+        product = get_object_or_404(Product, id=product_id)
+        
+        # Directly filter reviews by product_id
+        reviews = Review.objects.filter(product=product)
+        return reviews
     
+    def get_review_texts(self):
+        """
+        Method to return a list of review texts for the given product_id.
+        """
+        queryset = self.get_queryset()
+        
+        # Extracting review text from each review in the queryset
+        review_texts = [review.review for review in queryset]
+        return review_texts
+    
+    def summarize_reviews(self):
+        """
+        Method to return a single summarized string of review texts.
+        """
+        review_texts = self.get_review_texts()
+        summary = ' '.join(review_texts)
+        
+        # You can customize the summary statement as needed
+        return f"Total {len(review_texts)} reviews: {summary}"
 class SearchProductsAPIView(generics.ListAPIView):
     serializer_class = ProductSerializer
     permission_classes = (AllowAny,)
