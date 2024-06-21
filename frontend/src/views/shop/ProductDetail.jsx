@@ -42,6 +42,7 @@ function ProductDetail() {
 
     const [createReview, setCreateReview] = useState({ user_id: 0, product_id: product?.id, review: "", rating: 0, })
     const [reviews, setReviews] = useState([]);
+    const [reviewSummary, setReviewSummary] = useState("");
 
     const axios = apiInstance
     const params = useParams()
@@ -137,11 +138,23 @@ function ProductDetail() {
         axios.get(`reviews/${product?.id}/`).then((res) => {
             setReviews(res.data);
         })
-    }
+    };
+   const fetchReviewSummary = async () => {
+        try {
+            const response = await axios.get(`reviews/${product?.id}/summary/`);
+            setReviewSummary(response.data);
+        } catch (error) {
+            console.error("Error fetching review summary:", error);
+        }
+    };
     useEffect(() => {
+        if (product?.id) {
+            fetchReviewData();
+            fetchReviewSummary();
+            setLoading(false);
+        }
+    }, [loading, product?.id]);
 
-        fetchReviewData()
-    }, [loading])
 
     const handleReviewSubmit = (e) => {
         e.preventDefault()
@@ -564,6 +577,8 @@ function ProductDetail() {
                                         <div className="col-md-6">
                                             {reviews.length > 0 ?
                                                 <>
+                                                    <h2>Review Summary</h2>
+                                                    <p>{reviewSummary}</p>
                                                     <h2>All Reviews</h2>
                                                     {reviews.map((review, index) => (
                                                         <div className="card mb-3 rounded-3">
