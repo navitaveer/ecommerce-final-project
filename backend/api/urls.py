@@ -41,6 +41,7 @@ urlpatterns = [
     path('coupon/', store_views.CouponApiView.as_view(), name='coupon'),
     path('create-review/', store_views.ReviewRatingAPIView.as_view(), name='create-review'),
     path('reviews/<product_id>/', store_views.ReviewListView.as_view(), name='create-review'),
+    path('reviews/<int:product_id>/summary/', SummaryReview.as_view({'get': 'review_summary'}), name='review-summary'),
     path('search/', store_views.SearchProductsAPIView.as_view(), name='search'),
 
     # Payment
